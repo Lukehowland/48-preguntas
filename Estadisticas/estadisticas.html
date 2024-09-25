@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estadísticas del Cuestionario</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: white;
+            color: #3bb1b3;
+        }
+        h1, h2, h3 {
+            color: #3bb1b3;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .chart-container {
+            position: relative;
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Estadísticas del Cuestionario</h1>
+
+        <h3>Resumen General</h3>
+        <div class="chart-container">
+            <canvas id="generalChart"></canvas>
+        </div>
+
+        <h3 class="mt-5">Estadísticas por Pregunta</h3>
+        <select id="questionSelect" class="form-control mb-3"></select>
+        <div class="chart-container">
+            <canvas id="questionChart"></canvas>
+        </div>
+
+        <h3 class="mt-5">Estadísticas por Usuario</h3>
+        <select id="userSelect" class="form-control mb-3"></select>
+        <div class="chart-container">
+            <canvas id="userChart"></canvas>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="estadisticas.js"></script>
+</body>
+</html>

@@ -1,0 +1,560 @@
+<html><head>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="estilo.css">
+    <script src="script.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <h2 style="color: rgb(59, 177, 179); margin-bottom: 25px;">Ingresa con tu Correo de Univalle</h2>
+            <div id="emailForm">
+                <label for="email">Email:</label>
+                <input type="email" id="email" required>
+                <label for="name">Nombre completo:</label>
+                <input type="text" id="name" required>
+                <button onclick="validateEmail()">Iniciar Sesión</button>
+                <p id="emailError" class="error"></p>
+            </div>
+            <form id="surveyForm" style="display:none; margin-left: 35px;">
+    
+                <!-- Pregunta 1 -->
+                <div class="question">
+                    <label>¿Cuál es tu área de interés principal en la ingeniería informática?</label><br>
+                    <input type="checkbox" name="interes" value="Programación"> Programación<br>
+                    <input type="checkbox" name="interes" value="Bases de Datos"> Bases de Datos<br>
+                    <input type="checkbox" name="interes" value="Seguridad"> Seguridad<br>
+                    <input type="checkbox" name="interes" value="Inteligencia Artificial"> Inteligencia Artificial<br>
+                    <input type="checkbox" name="interes" value="Desarrollo Web"> Desarrollo Web<br>
+                    <input class="otros-checkbox" type="checkbox" name="interes" value="Otros"> Otros (especificar)<br>
+                    <div class="otros-textarea" style="display:none;">
+                        <textarea name="otros_interes" placeholder="Especifica"></textarea>
+                    </div>
+                </div>
+
+                <!-- Pregunta 2 -->
+                <div class="question">
+                    <label>¿En qué área te gustaría trabajar después de graduarte?</label><br>
+                    <input type="checkbox" name="area_trabajo" value="Desarrollo de Software"> Desarrollo de Software<br>
+                    <input type="checkbox" name="area_trabajo" value="Administración de Sistemas"> Administración de Sistemas<br>
+                    <input type="checkbox" name="area_trabajo" value="Ciberseguridad"> Ciberseguridad<br>
+                    <input type="checkbox" name="area_trabajo" value="Análisis de Datos"> Análisis de Datos<br>
+                    <input type="checkbox" name="area_trabajo" value="Consultoría"> Consultoría<br>
+                    <input type="checkbox" name="area_trabajo" value="Investigación"> Investigación<br>
+                    <input class="otros-checkbox" type="checkbox" name="area_trabajo" value="Otros"> Otros (especificar)<br>
+                    <div class="otros-textarea" style="display:none;">
+                        <textarea name="otros_area_trabajo" placeholder="Especifica"></textarea>
+                    </div>
+                </div>
+
+                <!-- Pregunta 3 -->
+                <div class="question">
+                    <label>¿Qué habilidades técnicas posees?</label><br>
+                    <input type="checkbox" name="habilidades" value="Java"> Java<br>
+                    <input type="checkbox" name="habilidades" value="Python"> Python<br>
+                    <input type="checkbox" name="habilidades" value="SQL"> SQL<br>
+                    <input type="checkbox" name="habilidades" value="HTML/CSS"> HTML/CSS<br>
+                    <input type="checkbox" name="habilidades" value="JavaScript"> JavaScript<br>
+                    <input type="checkbox" name="habilidades" value="C#"> C#<br>
+                    <input type="checkbox" name="habilidades" value="PHP"> PHP<br>
+                    <input class="otros-checkbox" type="checkbox" name="habilidades" value="Otros"> Otros (especificar)<br>
+                    <div class="otros-textarea" style="display:none;">
+                        <textarea name="otros_habilidades" placeholder="Especifica"></textarea>
+                    </div>
+                </div>
+
+                <!-- Pregunta 4 -->
+                <div class="question">
+                    <label>¿En qué áreas te sientes más fuerte?</label><br>
+                    <input type="checkbox" name="fuerzas" value="Programación"> Programación<br>
+                    <input type="checkbox" name="fuerzas" value="Diseño de Bases de Datos"> Diseño de Bases de Datos<br>
+                    <input type="checkbox" name="fuerzas" value="Diseño de Interfaces"> Diseño de Interfaces<br>
+                    <input type="checkbox" name="fuerzas" value="Testing"> Testing<br>
+                    <input type="checkbox" name="fuerzas" value="Gestión de Proyectos"> Gestión de Proyectos<br>
+                    <input class="otros-checkbox" type="checkbox" name="fuerzas" value="Otros"> Otros (especificar)<br>
+                    <div class="otros-textarea" style="display:none;">
+                        <textarea name="otros_fuerzas" placeholder="Especifica"></textarea>
+                    </div>
+                </div>
+
+                <!-- Pregunta 5 -->
+                <div class="question">
+                    <label>¿En qué áreas sientes que necesitas mejorar?</label><br>
+                    <input type="checkbox" name="mejoras" value="Programación"> Programación<br>
+                    <input type="checkbox" name="mejoras" value="Diseño de Bases de Datos"> Diseño de Bases de Datos<br>
+                    <input type="checkbox" name="mejoras" value="Diseño de Interfaces"> Diseño de Interfaces<br>
+                    <input type="checkbox" name="mejoras" value="Testing"> Testing<br>
+                    <input type="checkbox" name="mejoras" value="Gestión de Proyectos"> Gestión de Proyectos<br>
+                    <input class="otros-checkbox" type="checkbox" name="mejoras" value="Otros"> Otros (especificar)<br>
+                    <div class="otros-textarea" style="display:none;">
+                        <textarea name="otros_mejoras" placeholder="Especifica"></textarea>
+                    </div>
+                </div>
+    
+                <!-- Pregunta 6 -->
+                <div class="question">
+                    <label>¿Te gusta trabajar en equipo?</label><br>
+                    <input type="radio" name="trabajo_equipo" value="Sí"> Sí<br>
+                    <input type="radio" name="trabajo_equipo" value="No"> No<br>
+                    <input type="radio" name="trabajo_equipo" value="Depende del Proyecto"> Depende del Proyecto<br><br>
+                </div>
+    
+                <!-- Pregunta 7 -->
+                <div class="question">
+                    <label>¿Prefieres trabajar de manera presencial o remota?</label><br>
+                    <input type="radio" name="modalidad_trabajo" value="Presencial"> Presencial<br>
+                    <input type="radio" name="modalidad_trabajo" value="Remota"> Remota<br>
+                    <input type="radio" name="modalidad_trabajo" value="Mixta"> Mixta<br><br>
+                </div>
+    
+                <!-- Pregunta 8 -->
+                <div class="question">
+                    <label>¿Cuál es tu disponibilidad de tiempo para reuniones de equipo?</label><br>
+                    <input type="radio" name="disponibilidad" value="Mañanas"> Mañanas<br>
+                    <input type="radio" name="disponibilidad" value="Tardes"> Tardes<br>
+                    <input type="radio" name="disponibilidad" value="Noches"> Noches<br>
+                    <input type="radio" name="disponibilidad" value="Fines de Semana"> Fines de Semana<br><br>
+                </div>
+    
+                <!-- Pregunta 9 -->
+                <div class="question">
+                    <label>¿Te consideras una persona organizada?</label><br>
+                    <input type="radio" name="organizado" value="Sí"> Sí<br>
+                    <input type="radio" name="organizado" value="No"> No<br>
+                    <input type="radio" name="organizado" value="A veces"> A veces<br><br>
+                </div>
+    
+                <!-- Pregunta 10 -->
+                <div class="question">
+                    <label>¿Qué es lo que más te gusta hacer en tu tiempo libre?</label><br>
+                    <textarea name="tiempo_libre" rows="4" cols="50"></textarea><br><br>
+                </div>
+    
+                <!-- Pregunta 11 -->
+                <div class="question">
+                    <label>¿Tienes experiencia previa en proyectos de equipo?</label><br>
+                    <input type="radio" name="experiencia_equipo" value="Sí"> Sí<br>
+                    <input type="radio" name="experiencia_equipo" value="No"> No<br><br>
+                </div>
+    
+                <!-- Pregunta 12 -->
+                <div class="question">
+                    <label>Si respondiste "Sí" a la pregunta anterior, ¿qué rol desempeñaste?</label><br>
+                    <input type="text" name="rol_desempeñado"><br><br>
+                </div>
+    
+                <!-- Pregunta 13 -->
+                <div class="question">
+                    <label>¿Hay algo que no te guste de la carrera de ingeniería informática?</label><br>
+                    <textarea name="no_gusta" rows="4" cols="50"></textarea><br><br>
+                </div>
+    
+                <!-- Pregunta 14 -->
+                <div class="question">
+                    <label>¿Qué esperas aprender o lograr en la asignatura Proyecto de Sistemas 1?</label><br>
+                    <textarea name="expectativas" rows="4" cols="50"></textarea><br><br>
+                </div>
+    
+                <!-- Pregunta 15 -->
+                <div class="question">
+                    <label>¿Qué tipo de proyectos has realizado anteriormente?</label><br>
+                    <input type="checkbox" name="proyectos_previos" value="Aplicaciones Web"> Aplicaciones Web<br>
+                    <input type="checkbox" name="proyectos_previos" value="Aplicaciones Móviles"> Aplicaciones Móviles<br>
+                    <input type="checkbox" name="proyectos_previos" value="Sistemas Embebidos"> Sistemas Embebidos<br>
+                    <input type="checkbox" name="proyectos_previos" value="Proyectos de Investigación"> Proyectos de Investigación<br>
+                    <input class="otros-checkbox" type="checkbox" name="proyectos_previos" value="Otros"> Otros (especificar)<br>
+                    <div class="otros-textarea" style="display:none;">
+                        <textarea name="otros_proyectos_previos" placeholder="Especifica"></textarea>
+                    </div>
+                </div>
+
+                <!-- Pregunta 16 -->
+                <div class="question">
+                    <label>¿Qué tipo de proyectos te gustaría realizar en el futuro?</label><br>
+                    <input type="checkbox" name="proyectos_futuros" value="Desarrollo de Software"> Desarrollo de Software<br>
+                    <input type="checkbox" name="proyectos_futuros" value="Inteligencia Artificial"> Inteligencia Artificial<br>
+                    <input type="checkbox" name="proyectos_futuros" value="Big Data"> Big Data<br>
+                    <input type="checkbox" name="proyectos_futuros" value="Seguridad Informática"> Seguridad Informática<br>
+                    <input type="checkbox" name="proyectos_futuros" value="Redes"> Redes<br>
+                    <input class="otros-checkbox" type="checkbox" name="proyectos_futuros" value="Otros"> Otros (especificar)<br>
+                    <div class="otros-textarea" style="display:none;">
+                        <textarea name="otros_proyectos_futuros" placeholder="Especifica"></textarea>
+                    </div>
+                </div>
+
+                <!-- Pregunta 17 -->
+                <div class="question">
+                    <label>¿Qué otras aptitudes tienes que puedan ser útiles en un proyecto?</label><br>
+                    <input type="checkbox" name="aptitudes" value="Gestión de Proyectos"> Gestión de Proyectos<br>
+                    <input type="checkbox" name="aptitudes" value="Comunicación"> Comunicación<br>
+                    <input type="checkbox" name="aptitudes" value="Creatividad"> Creatividad<br>
+                    <input type="checkbox" name="aptitudes" value="Resolución de Problemas"> Resolución de Problemas<br>
+                    <input type="checkbox" name="aptitudes" value="Trabajo en Equipo"> Trabajo en Equipo<br>
+                    <input type="checkbox" name="aptitudes" value="Investigación"> Investigación<br>
+                    <input class="otros-checkbox" type="checkbox" name="aptitudes" value="Otros"> Otros (especificar)<br>
+                    <div class="otros-textarea" style="display:none;">
+                        <textarea name="otros_aptitudes" placeholder="Especifica"></textarea>
+                    </div>
+                </div>
+    
+                <!-- Pregunta 18 -->
+                <div class="question">
+                    <label>¿Cómo te sientes trabajando en equipo?</label><br>
+                    <input type="radio" name="trabajo_equipo" value="Muy Cómodo"> Muy Cómodo<br>
+                    <input type="radio" name="trabajo_equipo" value="Cómodo"> Cómodo<br>
+                    <input type="radio" name="trabajo_equipo" value="Neutral"> Neutral<br>
+                    <input type="radio" name="trabajo_equipo" value="Incómodo"> Incómodo<br>
+                    <input type="radio" name="trabajo_equipo" value="Muy Incómodo"> Muy Incómodo<br><br>
+                </div>
+    
+                <!-- Pregunta 19 -->
+                <div class="question">
+                    <label>¿Qué herramientas o tecnologías te gustaría aprender?</label><br>
+                    <input type="checkbox" name="tecnologias" value="Nuevos Lenguajes de Programación"> Nuevos Lenguajes de Programación<br>
+                    <input type="checkbox" name="tecnologias" value="Herramientas de Desarrollo Ágil"> Herramientas de Desarrollo Ágil<br>
+                    <input type="checkbox" name="tecnologias" value="Herramientas de DevOps"> Herramientas de DevOps<br>
+                    <input type="checkbox" name="tecnologias" value="Inteligencia Artificial"> Inteligencia Artificial<br>
+                    <input type="checkbox" name="tecnologias" value="Cloud Computing"> Cloud Computing<br>
+                    <input class="otros-checkbox" type="checkbox" name="tecnologias" value="Otros"> Otros (especificar)<br>
+                    <div class="otros-textarea" style="display:none;">
+                        <textarea name="otros_tecnologias" placeholder="Especifica"></textarea>
+                    </div>
+                </div>
+    
+                <!-- Pregunta 20 -->
+                <div class="question">
+                    <label>¿Qué tan bien manejas el estrés en un proyecto?</label><br>
+                    <input type="radio" name="estres_proyecto" value="Muy Bien"> Muy Bien<br>
+                    <input type="radio" name="estres_proyecto" value="Bien"> Bien<br>
+                    <input type="radio" name="estres_proyecto" value="Regular"> Regular<br>
+                    <input type="radio" name="estres_proyecto" value="Mal"> Mal<br>
+                    <input type="radio" name="estres_proyecto" value="Muy Mal"> Muy Mal<br><br>
+                </div>
+    
+                <!-- Pregunta 21 -->
+                <div class="question">
+                    <label>¿Te gustaría liderar un equipo de proyecto?</label><br>
+                    <input type="radio" name="liderar_equipo" value="Sí"> Sí<br>
+                    <input type="radio" name="liderar_equipo" value="No"> No<br>
+                    <input type="radio" name="liderar_equipo" value="Tal Vez"> Tal Vez<br><br>
+                </div>
+    
+                <!-- Pregunta 22 -->
+                <div class="question">
+                    <label>¿Qué tan importante es para ti la innovación en un proyecto?</label><br>
+                    <input type="radio" name="innovacion_importancia" value="Muy Importante"> Muy Importante<br>
+                    <input type="radio" name="innovacion_importancia" value="Importante"> Importante<br>
+                    <input type="radio" name="innovacion_importancia" value="Neutral"> Neutral<br>
+                    <input type="radio" name="innovacion_importancia" value="Poco Importante"> Poco Importante<br>
+                    <input type="radio" name="innovacion_importancia" value="No Importante"> No Importante<br><br>
+                </div>
+    
+                <!-- Pregunta 23 -->
+                <div class="question">
+                    <label>¿Qué estilo de trabajo prefieres?</label><br>
+                    <input type="radio" name="estilo_trabajo" value="Autónomo"> Autónomo<br>
+                    <input type="radio" name="estilo_trabajo" value="Colaborativo"> Colaborativo<br>
+                    <input type="radio" name="estilo_trabajo" value="Mixto"> Mixto<br><br>
+                </div>
+    
+                <!-- Pregunta 24 -->
+                <div class="question">
+                    <label>¿Qué esperas de tus compañeros de equipo?</label><br>
+                    <input type="checkbox" name="expectativas_equipo" value="Compromiso"> Compromiso<br>
+                    <input type="checkbox" name="expectativas_equipo" value="Comunicación"> Comunicación<br>
+                    <input type="checkbox" name="expectativas_equipo" value="Proactividad"> Proactividad<br>
+                    <input type="checkbox" name="expectativas_equipo" value="Creatividad"> Creatividad<br>
+                    <input type="checkbox" name="expectativas_equipo" value="Responsabilidad"> Responsabilidad<br>
+                    <input class="otros-checkbox" type="checkbox" name="expectativas_equipo" value="Otros"> Otros (especificar)<br>
+                    <div class="otros-textarea" style="display:none;">
+                        <textarea name="otros_expectativas_equipo" placeholder="Especifica"></textarea>
+                    </div>
+                </div>
+                
+                <!-- Pregunta 25 -->
+                <div class="question">
+                    <label>¿Cómo te gustaría recibir feedback sobre tu trabajo?</label><br>
+                    <input type="checkbox" name="feedback" value="Reuniones Presenciales"> Reuniones Presenciales<br>
+                    <input type="checkbox" name="feedback" value="Email"> Email<br>
+                    <input type="checkbox" name="feedback" value="Plataforma de Gestión de Proyectos"> Plataforma de Gestión de Proyectos<br>
+                    <input type="checkbox" name="feedback" value="Video Llamadas"> Video Llamadas<br>
+                    <input class="otros-checkbox" type="checkbox" name="feedback" value="Otros"> Otros (especificar)<br>
+                    <div class="otros-textarea" style="display:none;">
+                        <textarea name="otros_feedback" placeholder="Especifica"></textarea>
+                    </div>
+                </div>
+    
+                <!-- Pregunta 26 -->
+                <div class="question">
+                    <label>¿Qué esperas aprender de tus compañeros de equipo?</label><br>
+                    <input type="checkbox" name="aprendizaje_equipo" value="Nuevas Técnicas de Programación"> Nuevas Técnicas de Programación<br>
+                    <input type="checkbox" name="aprendizaje_equipo" value="Gestión de Proyectos"> Gestión de Proyectos<br>
+                    <input type="checkbox" name="aprendizaje_equipo" value="Resolución de Problemas"> Resolución de Problemas<br>
+                    <input type="checkbox" name="aprendizaje_equipo" value="Innovación"> Innovación<br>
+                    <input type="checkbox" name="aprendizaje_equipo" value="Trabajo en Equipo"> Trabajo en Equipo<br>
+                    <input type="checkbox" name="aprendizaje_equipo" value="Otros" class="otros-textarea"> Otros (especificar)<br>
+                    <div class="otros-textarea" style="display:none;">
+                        <textarea name="otros_feedback" placeholder="Especifica"></textarea>
+                    </div>
+                </div>
+    
+                <!-- Pregunta 27 -->
+                <div class="question">
+                    <label>¿Qué tipo de liderazgo prefieres en un proyecto?</label><br>
+                    <input type="radio" name="tipo_liderazgo" value="Democrático"> Democrático<br>
+                    <input type="radio" name="tipo_liderazgo" value="Autocrático"> Autocrático<br>
+                    <input type="radio" name="tipo_liderazgo" value="Laissez-faire"> Laissez-faire<br>
+                    <input type="radio" name="tipo_liderazgo" value="Transformacional"> Transformacional<br>
+                    <input type="radio" name="tipo_liderazgo" value="Transaccional"> Transaccional<br>
+                    <input class="otros-checkbox" type="radio" name="tipo_liderazgo" value="Otros"> Otros (especificar)<br>
+                    <div class="otros-textarea" style="display:none;">
+                        <textarea name="otros_tipo_liderazgo" placeholder="Especifica"></textarea>
+                    </div>
+                </div>
+
+                <!-- Pregunta 28 -->
+                <div class="question">
+                    <label>¿Cómo describirías tu carácter?</label><br>
+                    <input type="radio" name="caracter" value="Extrovertido"> Extrovertido<br>
+                    <input type="radio" name="caracter" value="Introvertido"> Introvertido<br>
+                    <input type="radio" name="caracter" value="Ambivertido"> Ambivertido<br>
+                    <input type="radio" name="caracter" value="Tranquilo"> Tranquilo<br>
+                    <input type="radio" name="caracter" value="Energético"> Energético<br>
+                    <input class="otros-checkbox" type="radio" name="caracter" value="Otros"> Otros (especificar)<br>
+                    <div class="otros-textarea" style="display:none;">
+                        <textarea name="otros_caracter" placeholder="Especifica"></textarea>
+                    </div>
+                </div>
+
+                <!-- Pregunta 29 -->
+                <div class="question">
+                    <label>¿Qué comportamientos te generan más empatía con tus compañeros?</label><br>
+                    <input type="checkbox" name="empatia" value="Honestidad"> Honestidad<br>
+                    <input type="checkbox" name="empatia" value="Trabajo en Equipo"> Trabajo en Equipo<br>
+                    <input type="checkbox" name="empatia" value="Proactividad"> Proactividad<br>
+                    <input type="checkbox" name="empatia" value="Comunicación"> Comunicación<br>
+                    <input type="checkbox" name="empatia" value="Respeto"> Respeto<br>
+                    <input class="otros-checkbox" type="checkbox" name="empatia" value="Otros"> Otros (especificar)<br>
+                    <div class="otros-textarea" style="display:none;">
+                        <textarea name="otros_empatia" placeholder="Especifica"></textarea>
+                    </div>
+                </div>
+
+                <!-- Pregunta 30 -->
+                <div class="question">
+                    <label>¿Qué comportamientos te generan menos empatía con tus compañeros?</label><br>
+                    <input type="checkbox" name="menos_empatia" value="Falta de Puntualidad"> Falta de Puntualidad<br>
+                    <input type="checkbox" name="menos_empatia" value="Falta de Compromiso"> Falta de Compromiso<br>
+                    <input type="checkbox" name="menos_empatia" value="Poca Comunicación"> Poca Comunicación<br>
+                    <input type="checkbox" name="menos_empatia" value="Desorganización"> Desorganización<br>
+                    <input type="checkbox" name="menos_empatia" value="Falta de Respeto"> Falta de Respeto<br>
+                    <input class="otros-checkbox" type="checkbox" name="menos_empatia" value="Otros"> Otros (especificar)<br>
+                    <div class="otros-textarea" style="display:none;">
+                        <textarea name="otros_menos_empatia" placeholder="Especifica"></textarea>
+                    </div>
+                </div>
+
+                <!-- Pregunta 31 -->
+                <div class="question">
+                    <label>¿Qué te motiva a trabajar en un proyecto?</label><br>
+                    <input type="checkbox" name="motivacion" value="Aprender Nuevas Habilidades"> Aprender Nuevas Habilidades<br>
+                    <input type="checkbox" name="motivacion" value="Colaboración con Otros"> Colaboración con Otros<br>
+                    <input type="checkbox" name="motivacion" value="Lograr Resultados Concretos"> Lograr Resultados Concretos<br>
+                    <input type="checkbox" name="motivacion" value="Innovación"> Innovación<br>
+                    <input class="otros-checkbox" type="checkbox" name="motivacion" value="Otros"> Otros (especificar)<br>
+                    <div class="otros-textarea" style="display:none;">
+                        <textarea name="otros_motivacion" placeholder="Especifica"></textarea>
+                    </div>
+                </div>
+
+                <!-- Pregunta 32 -->
+                <div class="question">
+                    <label>¿Qué te desmotiva en un proyecto?</label><br>
+                    <input type="checkbox" name="desmotivacion" value="Falta de Claridad en Objetivos"> Falta de Claridad en Objetivos<br>
+                    <input type="checkbox" name="desmotivacion" value="Problemas de Comunicación"> Problemas de Comunicación<br>
+                    <input type="checkbox" name="desmotivacion" value="Falta de Organización"> Falta de Organización<br>
+                    <input type="checkbox" name="desmotivacion" value="Conflictos en el Equipo"> Conflictos en el Equipo<br>
+                    <input class="otros-checkbox" type="checkbox" name="desmotivacion" value="Otros"> Otros (especificar)<br>
+                    <div class="otros-textarea" style="display:none;">
+                        <textarea name="otros_desmotivacion" placeholder="Especifica"></textarea>
+                    </div>
+                </div>
+
+                <!-- Pregunta 33 -->
+                <div class="question">
+                    <label>¿Cómo prefieres resolver conflictos en un equipo?</label><br>
+                    <input type="radio" name="resolver_conflictos" value="Mediación"> Mediación<br>
+                    <input type="radio" name="resolver_conflictos" value="Discusión Abierta"> Discusión Abierta<br>
+                    <input type="radio" name="resolver_conflictos" value="Solución de Compromiso"> Solución de Compromiso<br>
+                    <input type="radio" name="resolver_conflictos" value="Evitación"> Evitación<br>
+                    <input class="otros-checkbox" type="radio" name="resolver_conflictos" value="Otros"> Otros (especificar)<br>
+                    <div class="otros-textarea" style="display:none;">
+                        <textarea name="otros_resolver_conflictos" placeholder="Especifica"></textarea>
+                    </div>
+                </div>
+
+                <!-- Pregunta 34 -->
+                <div class="question">
+                    <label>¿Qué aspectos valoras más en un compañero de equipo?</label><br>
+                    <input type="checkbox" name="valores_equipo" value="Responsabilidad"> Responsabilidad<br>
+                    <input type="checkbox" name="valores_equipo" value="Comunicación"> Comunicación<br>
+                    <input type="checkbox" name="valores_equipo" value="Habilidades Técnicas"> Habilidades Técnicas<br>
+                    <input type="checkbox" name="valores_equipo" value="Creatividad"> Creatividad<br>
+                    <input type="checkbox" name="valores_equipo" value="Trabajo en Equipo"> Trabajo en Equipo<br>
+                    <input class="otros-checkbox" type="checkbox" name="valores_equipo" value="Otros"> Otros (especificar)<br>
+                    <div class="otros-textarea" style="display:none;">
+                        <textarea name="otros_valores_equipo" placeholder="Especifica"></textarea>
+                    </div>
+                </div>
+
+                <!-- Pregunta 35 -->
+                <div class="question">
+                    <label>¿Qué habilidades blandas consideras importantes en un proyecto?</label><br>
+                    <input type="checkbox" name="habilidades_blandas" value="Comunicación"> Comunicación<br>
+                    <input type="checkbox" name="habilidades_blandas" value="Trabajo en Equipo"> Trabajo en Equipo<br>
+                    <input type="checkbox" name="habilidades_blandas" value="Resolución de Problemas"> Resolución de Problemas<br>
+                    <input type="checkbox" name="habilidades_blandas" value="Adaptabilidad"> Adaptabilidad<br>
+                    <input type="checkbox" name="habilidades_blandas" value="Liderazgo"> Liderazgo<br>
+                    <input class="otros-checkbox" type="checkbox" name="habilidades_blandas" value="Otros"> Otros (especificar)<br>
+                    <div class="otros-textarea" style="display:none;">
+                        <textarea name="otros_habilidades_blandas" placeholder="Especifica"></textarea>
+                    </div>
+                </div>
+
+                <!-- Pregunta 36 -->
+                <div class="question">
+                    <label>¿Cómo manejas las diferencias de opinión en un equipo?</label><br>
+                    <input type="radio" name="diferencias_opinion" value="Discusión Razonada"> Discusión Razonada<br>
+                    <input type="radio" name="diferencias_opinion" value="Votación"> Votación<br>
+                    <input type="radio" name="diferencias_opinion" value="Compromiso"> Compromiso<br>
+                    <input type="radio" name="diferencias_opinion" value="Evitación"> Evitación<br>
+                    <input class="otros-checkbox" type="radio" name="diferencias_opinion" value="Otros"> Otros (especificar)<br>
+                    <div class="otros-textarea" style="display:none;">
+                        <textarea name="otros_diferencias_opinion" placeholder="Especifica"></textarea>
+                    </div>
+                </div>
+    
+                <!-- Pregunta 37 -->
+                <div class="question">
+                    <label>¿Qué actividades extracurriculares realizas?</label><br>
+                    <input type="checkbox" name="actividades_extracurriculares" value="Deportes"> Deportes<br>
+                    <input type="checkbox" name="actividades_extracurriculares" value="Música"> Música<br>
+                    <input type="checkbox" name="actividades_extracurriculares" value="Voluntariado"> Voluntariado<br>
+                    <input type="checkbox" name="actividades_extracurriculares" value="Clubes Estudiantiles"> Clubes Estudiantiles<br>
+                    <input type="checkbox" name="actividades_extracurriculares" value="Otros"> Otros (especificar)<br>
+                    <div id="otrosInteresText" style="display:none;">
+                        <textarea name="otros_interes" placeholder="Especifica"></textarea>
+                    </div>
+                </div>
+    
+                <!-- Pregunta 38 -->
+                <div class="question">
+                    <label>¿Qué tan importante es para ti la comunicación en el equipo?</label><br>
+                    <input type="radio" name="comunicacion_importancia" value="Muy Importante"> Muy Importante<br>
+                    <input type="radio" name="comunicacion_importancia" value="Importante"> Importante<br>
+                    <input type="radio" name="comunicacion_importancia" value="Neutral"> Neutral<br>
+                    <input type="radio" name="comunicacion_importancia" value="Poco Importante"> Poco Importante<br>
+                    <input type="radio" name="comunicacion_importancia" value="No Importante"> No Importante<br><br>
+                </div>
+    
+                <!-- Pregunta 39 -->
+                <div class="question">
+                    <label>¿Cómo reaccionas ante los cambios en el proyecto?</label><br>
+                    <input type="radio" name="reaccion_cambios" value="Muy Bien"> Muy Bien<br>
+                    <input type="radio" name="reaccion_cambios" value="Bien"> Bien<br>
+                    <input type="radio" name="reaccion_cambios" value="Regular"> Regular<br>
+                    <input type="radio" name="reaccion_cambios" value="Mal"> Mal<br>
+                    <input type="radio" name="reaccion_cambios" value="Muy Mal"> Muy Mal<br><br>
+                </div>
+    
+                <!-- Pregunta 40 -->
+                <div class="question">
+                    <label>¿Qué métodos de colaboración prefieres en un equipo?</label><br>
+                    <input type="checkbox" name="metodos_colaboracion" value="Reuniones Presenciales"> Reuniones Presenciales<br>
+                    <input type="checkbox" name="metodos_colaboracion" value="Herramientas en Línea"> Herramientas en Línea<br>
+                    <input type="checkbox" name="metodos_colaboracion" value="Mensajería Instantánea"> Mensajería Instantánea<br>
+                    <input type="checkbox" name="metodos_colaboracion" value="Email"> Email<br>
+                    <input class="otros-checkbox" type="checkbox" name="metodos_colaboracion" value="Otros"> Otros (especificar)<br>
+                    <div class="otros-textarea" style="display:none;">
+                        <textarea name="otros_metodos_colaboracion" placeholder="Especifica"></textarea>
+                    </div>
+                </div>
+    
+                <!-- Pregunta 41 -->
+                <div class="question">
+                    <label>¿Qué tipo de aprendizaje prefieres?</label><br>
+                    <input type="radio" name="aprendizaje" value="Teórico"> Teórico<br>
+                    <input type="radio" name="aprendizaje" value="Práctico"> Práctico<br>
+                    <input type="radio" name="aprendizaje" value="Mixto"> Mixto<br><br>
+                </div>
+    
+                <!-- Pregunta 42 -->
+                <div class="question">
+                    <label>¿Cómo describirías tu estilo de comunicación?</label><br>
+                    <input type="radio" name="estilo_comms" value="Directo"> Directo<br>
+                    <input type="radio" name="estilo_comms" value="Indirecto"> Indirecto<br>
+                    <input type="radio" name="estilo_comms" value="Detallado"> Detallado<br>
+                    <input type="radio" name="estilo_comms" value="Conciso"> Conciso<br>
+                    <input type="radio" name="estilo_comms" value="Otros"> Otros (especificar)<br>
+                    <div id="otrosInteresText" style="display:none;">
+                        <textarea name="otros_interes" placeholder="Especifica"></textarea>
+                    </div>
+                </div>
+    
+                <!-- Pregunta 43 -->
+                <div class="question">
+                    <label>¿Cómo manejas los plazos ajustados en un proyecto?</label><br>
+                    <input type="radio" name="plazos" value="Muy Bien"> Muy Bien<br>
+                    <input type="radio" name="plazos" value="Bien"> Bien<br>
+                    <input type="radio" name="plazos" value="Regular"> Regular<br>
+                    <input type="radio" name="plazos" value="Mal"> Mal<br>
+                    <input type="radio" name="plazos" value="Muy Mal"> Muy Mal<br><br>
+                </div>
+    
+                <!-- Pregunta 44 -->
+                <div class="question">
+                    <label>¿Qué esperas lograr a largo plazo en tu carrera?</label><br>
+                    <input type="checkbox" name="logros_carrera" value="Liderar Proyectos"> Liderar Proyectos<br>
+                    <input type="checkbox" name="logros_carrera" value="Innovar en Tecnología"> Innovar en Tecnología<br>
+                    <input type="checkbox" name="logros_carrera" value="Trabajar en una Gran Empresa"> Trabajar en una Gran Empresa<br>
+                    <input class="otros-checkbox" type="checkbox" name="logros_carrera" value="Otros"> Otros (especificar)<br>
+                    <div class="otros-textarea" style="display:none;">
+                        <textarea name="otros_logros_carrera" placeholder="Especifica"></textarea>
+                    </div>
+                </div>
+    
+                <!-- Pregunta 45 -->
+                <div class="question">
+                    <label>¿Cómo te sientes respecto a trabajar con tecnologías nuevas?</label><br>
+                    <input type="radio" name="tecNuevo" value="Muy Cómodo"> Muy Cómodo<br>
+                    <input type="radio" name="tecNuevo" value="Cómodo"> Cómodo<br>
+                    <input type="radio" name="tecNuevo" value="Neutral"> Neutral<br>
+                    <input type="radio" name="tecNuevo" value="Incómodo"> Incómodo<br>
+                    <input type="radio" name="tecNuevo" value="Muy Incómodo"> Muy Incómodo<br><br>
+                </div>
+    
+                <!-- Botones de navegación -->
+                <button type="button" id="prevBtn" style="display:none;">Atrás</button>
+                <button type="button" id="nextBtn">Siguiente</button>
+            </form>
+        </div>
+      <script>
+        function validateEmail() {
+          const email = document.getElementById('email').value;
+          const emailError = document.getElementById('emailError');
+          const emailRegex = /@est\.univalle\.edu$/;
+    
+          if (emailRegex.test(email)) {
+            document.getElementById('emailForm').style.display = 'none';
+            document.getElementById('surveyForm').style.display = 'block';
+          }else if (emailRegex.text(email)){
+              
+    
+          } 
+          else {
+            emailError.textContent = 'Por favor, utiliza un correo con la extensión @est.univalle.edu';
+          }
+        }
+      </script>
+    </body>
+    </html>

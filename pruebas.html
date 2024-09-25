@@ -1,0 +1,72 @@
+<html><head>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="estilo.css">
+    <script src="script.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <h2 style="color: rgb(59, 177, 179); margin-bottom: 25px;">Ingresa con tu Correo de Univalle</h2>
+            <div id="emailForm">
+                <label for="email">Email:</label>
+                <input type="email" id="email" required>
+                <label for="name">Nombre completo:</label>
+                <input type="text" id="name" required>
+                <button onclick="validateEmail()">Iniciar Sesión</button>
+                <p id="emailError" class="error"></p>
+            </div>
+            <form id="surveyForm" style="display:none; margin-left: 35px;">
+    
+                <!-- Pregunta 1 -->
+                <div class="question">
+                  <label>¿Cuál es tu área de interés principal en la ingeniería informática?</label><br>
+                  <input type="checkbox" name="interes" value="Programación"> Programación<br>
+                  <input type="checkbox" name="interes" value="Bases de Datos"> Bases de Datos<br>
+                  <input type="checkbox" name="interes" value="Seguridad"> Seguridad<br>
+                  <input type="checkbox" name="interes" value="Inteligencia Artificial"> Inteligencia Artificial<br>
+                  <input type="checkbox" name="interes" value="Desarrollo Web"> Desarrollo Web<br>
+                  <input class="Otros" type="checkbox" name="interes" value="Otros"> Otros (especificar)<br><br>
+                  <div class="otrosInteresText" style="display:none;">
+                      <textarea name="otros_interes" placeholder="Especifica"></textarea>
+                  </div>
+              </div>
+    
+                <!-- Pregunta 2 -->
+                <div class="question">
+                    <label>¿En qué área te gustaría trabajar después de graduarte?</label><br>
+                    <input type="checkbox" name="area_trabajo" value="Desarrollo de Software"> Desarrollo de Software<br>
+                    <input type="checkbox" name="area_trabajo" value="Administración de Sistemas"> Administración de Sistemas<br>
+                    <input type="checkbox" name="area_trabajo" value="Ciberseguridad"> Ciberseguridad<br>
+                    <input type="checkbox" name="area_trabajo" value="Análisis de Datos"> Análisis de Datos<br>
+                    <input type="checkbox" name="area_trabajo" value="Consultoría"> Consultoría<br>
+                    <input type="checkbox" name="area_trabajo" value="Investigación"> Investigación<br>
+                    <input type="checkbox" name="area_trabajo" value="Otros"> Otros (especificar)<br><br>
+                </div>
+
+    
+                <!-- Botones de navegación -->
+                <button type="button" id="prevBtn" style="display:none;">Atrás</button>
+                <button type="button" id="nextBtn">Siguiente</button>
+            </form>
+        </div>
+      <script>
+        function validateEmail() {
+          const email = document.getElementById('email').value;
+          const emailError = document.getElementById('emailError');
+          const emailRegex = /@est\.univalle\.edu$/;
+    
+          if (emailRegex.test(email)) {
+            document.getElementById('emailForm').style.display = 'none';
+            document.getElementById('surveyForm').style.display = 'block';
+          }else if (emailRegex.text(email)){
+              
+    
+          } 
+          else {
+            emailError.textContent = 'Por favor, utiliza un correo con la extensión @est.univalle.edu';
+          }
+        }
+      </script>
+    </body>
+    </html>
